@@ -1,5 +1,7 @@
 {
+    "name": "house-repair",
     "private": true,
+    "author": "PT Algoritma Arefta Indonesia - Sobat Gurun Tech with fatih",
     "scripts": {
         "dev": "vite",
         "build": "vite build"
