@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             SurveySeeder::class,
             MaterialSeeder::class,
             ProgressSeeder::class,
+            InvoiceSeeder::class
         ]);
     }
 }

@@ -1,5 +1,5 @@
 <x-modal name="createMaterial" focusable>
-  <form method="POST" action="{{ route('customers.store') }}" class="space-y-4 p-6">
+  <form method="POST" action="{{ route('materials.store') }}" class="space-y-4 p-6">
     @csrf
     <h2 class="mb-4 text-lg font-bold">Tambah Barang</h2>
 

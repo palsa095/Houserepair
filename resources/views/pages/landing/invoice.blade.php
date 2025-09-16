@@ -3,7 +3,7 @@
 @section('title', 'Invoice')
 
 @section('content')
-  <div class="min-h-screen bg-white p-4">
+  <div class="min-h-screen max-w-6xl mx-auto bg-white p-4">
     <!-- Search & Menu -->
     <div class="mb-6 flex items-center justify-between">
       <div class="flex w-full max-w-md items-center rounded-full border px-3 py-2">
@@ -29,7 +29,7 @@
       </div>
       <div class="text-center">
         <div class="mb-2 h-28 w-20 bg-gray-300"></div>
-        <a href="#" class="text-sm text-gray-600">See Invoice&gt;&gt;&gt;</a>
+        <a href="{{ route('landing.showinvoice') }}" class="text-sm text-gray-600">See Invoice&gt;&gt;&gt;</a>
       </div>
     </div>
 
@@ -43,7 +43,7 @@
       </div>
       <div class="text-center">
         <div class="mb-2 h-28 w-20 bg-gray-300"></div>
-        <a href="#" class="text-sm text-gray-300">See Invoice&gt;&gt;&gt;</a>
+        <a href="{{ route('landing.showinvoice') }}" class="text-sm text-gray-300">See Invoice&gt;&gt;&gt;</a>
       </div>
     </div>
   </div>

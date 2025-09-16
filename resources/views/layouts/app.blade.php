@@ -34,10 +34,8 @@ if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && w
     {{-- Sidebar (desktop) --}}
     <aside class="hidden bg-gray-800 text-gray-100 lg:flex lg:w-64 lg:shrink-0 lg:flex-col">
       <div class="flex h-20 items-center gap-3 border-b border-gray-700 px-6">
-        <i class="fa-solid fa-house-chimney text-2xl text-emerald-400"></i>
         <div>
-          <div class="text-lg font-bold leading-tight text-white">House Repair</div>
-          <div class="text-xs text-gray-400">Admin Panel</div>
+          <img src="{{ asset('/logo.png') }}" />
         </div>
       </div>
 
@@ -65,6 +63,11 @@ if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && w
         <a href="{{ route('progress.index') }}" class="{{ request()->routeIs('progress.*') ? 'bg-gray-700 text-emerald-400' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} flex items-center gap-3 rounded-lg px-3 py-2 transition-colors">
           <i class="fa-solid fa-chart-line {{ request()->routeIs('progress.*') ? 'text-emerald-400' : 'text-gray-400' }} w-5"></i>
           <span>Laporan Progres</span>
+        </a>
+
+        <a href="{{ route('invoices.index') }}" class="{{ request()->routeIs('invoices.*') ? 'bg-gray-700 text-emerald-400' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} flex items-center gap-3 rounded-lg px-3 py-2 transition-colors">
+          <i class="fa-solid fa-clipboard-check {{ request()->routeIs('invoices.*') ? 'text-emerald-400' : 'text-gray-400' }} w-5"></i>
+          <span>Invoice</span>
         </a>
       </nav>
 
@@ -107,13 +110,17 @@ if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && w
             <i class="fa-solid fa-clipboard-check {{ request()->routeIs('surveys.*') ? 'text-emerald-400' : 'text-gray-400' }} w-5"></i>
             <span>Hasil Survey</span>
           </a>
-          <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white">
+          <a href="{{ route('materials.index') }}"class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white">
             <i class="fa-solid fa-boxes-stacked w-5 text-gray-400"></i>
             <span>Penyediaan Barang</span>
           </a>
-          <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white">
+          <a href="{{ route('progress.index') }}" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white">
             <i class="fa-solid fa-chart-line w-5 text-gray-400"></i>
             <span>Laporan Progres</span>
+          </a>
+          <a href="{{ route('invoices.index') }}" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white">
+            <i class="fa-solid fa-chart-line w-5 text-gray-400"></i>
+            <span>Invoice</span>
           </a>
         </nav>
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProgressController;
 
 /*
@@ -25,12 +26,14 @@ Route::controller(LandingController::class)->group(function () {
     Route::get('/order', 'order')->name('landing.order');
     Route::get('/order/{id}', 'form')->name('landing.order.form');
     Route::get('/invoice', 'invoice')->name('landing.invoice');
+    Route::get('/invoice/{invoice}', 'showinvoice')->name('landing.showinvoice');
 });
 
 Route::resource('customers', CustomerController::class);
 Route::resource('surveys', SurveyController::class);
 Route::resource('materials', MaterialController::class);
 Route::resource('progress', ProgressController::class);
+Route::resource('invoices', InvoiceController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

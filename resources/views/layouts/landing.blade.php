@@ -23,9 +23,7 @@
         {{-- Logo --}}
         <div class="flex items-center">
           <a href="{{ route('landing.home') }}" class="flex items-center space-x-2">
-            {{-- Icon rumah --}}
-            <i class="fa-solid fa-house-chimney text-2xl text-emerald-400"></i>
-            <span class="px-2 text-2xl font-bold text-emerald-400">House Repair</span>
+            <img src="{{ asset('/logo.png') }}" class="mb-4 mt-2 p-4" />
           </a>
         </div>
 
@@ -91,11 +89,7 @@
         {{-- Logo & Info --}}
         <div class="col-span-2">
           <div class="mb-4 flex items-center space-x-2">
-            {{-- Icon Rumah --}}
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M4 10v10h16V10" />
-            </svg>
-            <span class="text-lg font-bold text-emerald-400">House Repair</span>
+            <img src="{{ asset('/logo.png') }}" />
           </div>
           <a href="#" class="mt-2 inline-block rounded bg-emerald-400 px-4 py-2 text-sm font-medium text-black hover:bg-emerald-400">
             More Info
@@ -130,10 +124,10 @@
         <p>Since ©2024. <a href="#" class="hover:underline">Terms & Conditions</a></p>
 
         <div class="mt-4 flex space-x-6 md:mt-0">
-          <a href="#" class="hover:text-emerald-400 mx-2"><i class="fab fa-whatsapp"></i></a>
-          <a href="#" class="hover:text-emerald-400 mx-2"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="hover:text-emerald-400 mx-2"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="hover:text-emerald-400 mx-2"><i class="fab fa-telegram"></i></a>
+          <a href="#" class="mx-2 hover:text-emerald-400"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="mx-2 hover:text-emerald-400"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="mx-2 hover:text-emerald-400"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="mx-2 hover:text-emerald-400"><i class="fab fa-telegram"></i></a>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class LandingController extends Controller
@@ -28,6 +29,15 @@ class LandingController extends Controller
 
     public function invoice()
     {
-        return view('pages.landing.invoice');
+        $invoices = Invoice::latest()->get();
+
+        return view('pages.landing.invoice', compact('invoices'));
+    }
+
+    public function showinvoice(Invoice $invoice)
+    {
+        $invoice->load('items');
+
+        return view('pages.landing.show-invoice', compact('invoice'));
     }
 }
