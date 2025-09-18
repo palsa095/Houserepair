@@ -36,7 +36,15 @@ Route::resource('progress', ProgressController::class);
 Route::resource('invoices', InvoiceController::class);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $totalHasilSurvey = App\Models\Survey::count();
+    $totalBarang = App\Models\Material::count();
+    $jumlahTransaksi = App\Models\Invoice::count();
+
+    return view('dashboard',  [
+        'totalHasilSurvey' => $totalHasilSurvey, 
+        'totalBarang' => $totalBarang,           
+        'jumlahTransaksi' => $jumlahTransaksi
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
