@@ -96,7 +96,7 @@
             @foreach ($materials as $i => $material)
               <tr class="border-b dark:border-gray-600">
                 <td class="p-2">{{ $i + 1 }}</td>
-                <td class="p-2">{{ $material->nama }}</td>
+                <td class="p-2">{{ $material->survey->nama }}</td>
                 <td class="p-2">{{ $material->keterangan }}</td>
                 <td class="p-2">{{ $material->keperluan_barang }}</td>
                 <td class="p-2">{{ $material->total_harga }}</td>
@@ -126,9 +126,9 @@
   </div>
 
   {{-- Include Modals --}}
-  @include('pages.dashboard.materials.create')
+  @include('pages.dashboard.materials.create', ['surveys' => $surveys])
   @foreach ($materials as $material)
-    @include('pages.dashboard.materials.edit', ['material' => $material])
+    @include('pages.dashboard.materials.edit', ['material' => $material, 'surveys' => $surveys])
     @include('pages.dashboard.materials.delete', ['material' => $material])
   @endforeach
 @endsection
@@ -198,7 +198,7 @@
           const row = document.createElement('tr');
           const cells = [
             {{ $i + 1 }},
-            @json($material->nama),
+            @json($material->survey->nama),
             @json($material->keterangan),
             @json($material->keperluan_barang),
             @json((string) $material->total_harga),

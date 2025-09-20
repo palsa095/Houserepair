@@ -25,15 +25,15 @@ Route::controller(LandingController::class)->group(function () {
     Route::get('/about', 'about')->name('landing.about');
     Route::get('/order', 'order')->name('landing.order');
     Route::get('/order/{id}', 'form')->name('landing.order.form');
-    Route::get('/invoice', 'invoice')->name('landing.invoice');
+    Route::get('/invoice', 'invoice')->name('landing.invoice')->middleware('auth');
     Route::get('/invoice/{invoice}', 'showinvoice')->name('landing.showinvoice');
 });
 
-Route::resource('customers', CustomerController::class);
+Route::resource('customers', CustomerController::class)->middleware('auth');
 Route::resource('surveys', SurveyController::class);
 Route::resource('materials', MaterialController::class);
 Route::resource('progress', ProgressController::class);
-Route::resource('invoices', InvoiceController::class);
+Route::resource('invoices', InvoiceController::class)->middleware('auth');
 
 Route::get('/dashboard', function () {
     $totalHasilSurvey = App\Models\Survey::count();

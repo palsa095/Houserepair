@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Invoice;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
@@ -57,6 +58,19 @@ class CustomerController extends Controller
         ]);
 
         Customer::create($request->all());
+
+        $userId = auth()->id();
+
+        if (!$userId) {
+            return redirect()->back()->withErrors('Anda harus login untuk membuat invoice');
+        }
+
+        Invoice::create([
+            'user_id'       => $userId,
+            'number'        => 'HR-' . now()->format('dmY') . rand(100000, 999999),
+            'date'          => now(),
+            'customer_name' => $request->name,
+        ]);
 
         return redirect()->back()->with('success', 'Berhasil membuat pesanan');
     }

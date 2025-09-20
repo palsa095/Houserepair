@@ -29,7 +29,7 @@ class LandingController extends Controller
 
     public function invoice()
     {
-        $invoices = Invoice::latest()->get();
+        $invoices = Invoice::where('user_id', auth()->id())->latest()->get();
 
         return view('pages.landing.invoice', compact('invoices'));
     }

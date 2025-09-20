@@ -17,6 +17,7 @@ class InvoiceSeeder extends Seeder
     public function run()
     {
         $invoice = Invoice::create([
+            'user_id' => 1,
             'number' => 'HR-00',
             'date' => '2023-08-01',
             'customer_name' => 'Russel Imanuel',

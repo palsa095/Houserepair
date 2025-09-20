@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->foreignId('survey_id')->constrained()->cascadeOnDelete();
             $table->string('keterangan')->nullable();
             $table->string('keperluan_barang');
             $table->double('total_harga');

@@ -7,10 +7,15 @@
       @method('PUT')
       <h2 class="mb-4 text-lg font-bold">Edit Barang</h2>
 
-      <div>
-        <x-input-label for="nama{{ $material->id }}" value="Nama" />
-        <x-text-input id="nama{{ $material->id }}" name="nama" type="text" class="mt-1 block w-full" value="{{ $material->nama }}" required />
-        <x-input-error :messages="$errors->get('nama')" class="mt-2" />
+       <div>
+        <x-input-label for="survey_id{{ $material->id }}" value="Survey" />
+        <select id="survey_id{{ $material->id }}" name="survey_id" required class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+          <option value="">-- Pilih --</option>
+          @foreach ($surveys as $survey)
+            <option value="{{ $survey->id }}" {{ old('survey_id') == $survey->id ? 'selected' : '' }}>{{ $survey->nama }}</option>
+          @endforeach
+        </select>
+        <x-input-error :messages="$errors->get('survey_id')" class="mt-2" />
       </div>
 
       <div>

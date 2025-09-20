@@ -9,16 +9,8 @@ class Invoice extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'number',
-        'date',
-        'customer_name',
-        'customer_address',
-        'customer_phone',
-        'package',
-        'project',
-        'currency',
-        'total'
+    protected $guarded = [
+        'id'
     ];
 
     protected static function booted()

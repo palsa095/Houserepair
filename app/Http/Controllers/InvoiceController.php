@@ -42,6 +42,7 @@ class InvoiceController extends Controller
             $total = collect($data['items'])->sum('subtotal');
 
             $invoice = Invoice::create([
+                'user_id'          => auth()->id(),
                 'number'           => $data['number'],
                 'date'             => $data['date'],
                 'customer_name'    => $data['customer_name'],
