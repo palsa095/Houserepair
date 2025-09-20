@@ -53,6 +53,7 @@ class CustomerController extends Controller
             'phone' => 'required|string|max:20',
             'address' => 'required',
             'category' => 'required',
+            'project' => 'required',
             'note' => 'nullable',
             'status' => 'nullable'
         ]);
@@ -70,6 +71,8 @@ class CustomerController extends Controller
             'number'        => 'HR-' . now()->format('dmY') . rand(100000, 999999),
             'date'          => now(),
             'customer_name' => $request->name,
+            'package'          => $request->package ?? 'Paket Besar',
+            'project'          => $request->project ?? 'Reservasi',
         ]);
 
         return redirect()->back()->with('success', 'Berhasil membuat pesanan');

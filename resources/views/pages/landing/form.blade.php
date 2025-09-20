@@ -41,17 +41,20 @@
             <h5 class="my-2 rounded-xl border border-gray-500 p-2 text-xl">Paket Besar</h5>
             <p class="my-2 rounded-xl border border-gray-500 p-2 text-xl">Renovasi Keseluruhan Rumah</p>
             <input type="hidden" name="category" value="Paket Besar">
-            @elseif(request()->route('id') == 2)
+            <input type="hidden" name="project" value="Renovasi Keseluruhan Rumah">
+          @elseif(request()->route('id') == 2)
             <h5 class="my-2 rounded-xl border border-gray-500 p-2 text-xl">Paket Sedang</h5>
             <p class="my-2 rounded-xl border border-gray-500 p-2 text-xl">Reservasi</p>
             <input type="hidden" name="category" value="Paket Sedang">
-            @elseif(request()->route('id') == 3)
+            <input type="hidden" name="project" value=" Reservasi">
+          @elseif(request()->route('id') == 3)
             <h5 class="my-2 rounded-xl border border-gray-500 p-2 text-xl"">Paket Kecil</h5>
             <p class="my-2 rounded-xl border border-gray-500 p-2 text-xl">Reservasi</p>
-            @else
+            <input type="hidden" name="category" value="Paket Kecil">
+            <input type="hidden" name="project" value=" Reservasi">
+          @else
             <h5 class="my-2 rounded-xl border border-gray-500 p-2 text-xl">Paket Tidak Dikenali</h5>
             <p class="my-2 rounded-xl border border-gray-500 p-2 text-xl">Silakan pilih paket yang tersedia</p>
-            <input type="hidden" name="category" value="Paket Kecil">
           @endif
         </div>
       </div>
