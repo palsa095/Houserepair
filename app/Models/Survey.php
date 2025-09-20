@@ -10,9 +10,4 @@ class Survey extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-
-    public function materials()
-    {
-        return $this->hasMany(Material::class);
-    }
 }
