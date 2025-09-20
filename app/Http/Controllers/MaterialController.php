@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Material;
-use App\Models\Survey;
 use Illuminate\Http\Request;
 
 class MaterialController extends Controller
@@ -20,7 +19,7 @@ class MaterialController extends Controller
         // Search filter
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('keterangan', 'like', '%' . $search . '%')
+                $q->where('nama', 'like', '%' . $search . '%')
                     ->orWhere('keperluan_barang', 'like', '%' . $search . '%');
             });
         }
@@ -34,15 +33,14 @@ class MaterialController extends Controller
         }
 
         $materials = $query->orderBy('created_at', 'desc')->paginate(10);
-        $surveys = Survey::latest()->get();
 
-        return view('pages.dashboard.materials.index', compact(['materials', 'surveys']));
+        return view('pages.dashboard.materials.index', compact('materials'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'survey_id' => 'required|exists:surveys,id',
+            'nama' => 'required|string',
             'keterangan' => 'required|string',
             'keperluan_barang' => 'required|string',
             'total_harga' => 'required|numeric'
@@ -57,7 +55,7 @@ class MaterialController extends Controller
     {
         $material = Material::findOrFail($id);
         $validated = $request->validate([
-            'survey_id' => 'sometimes|exists:surveys,id',
+            'nama' => 'sometimes|string',
             'keterangan' => 'sometimes|string',
             'keperluan_barang' => 'sometimes|string',
             'total_harga' => 'sometimes|numeric'
