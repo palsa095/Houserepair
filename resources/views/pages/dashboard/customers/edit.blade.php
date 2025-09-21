@@ -29,11 +29,17 @@
         <x-input-label for="category{{ $customer->id }}" value="Kategori" />
         <select id="category{{ $customer->id }}" name="category" required class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
           <option value="">-- Pilih --</option>
-          <option value="Ringan" {{ $customer->category == 'Ringan' ? 'selected' : '' }}>Ringan</option>
-          <option value="Sedang" {{ $customer->category == 'Sedang' ? 'selected' : '' }}>Sedang</option>
-          <option value="Berat" {{ $customer->category == 'Berat' ? 'selected' : '' }}>Berat</option>
+          <option value="Paket Ringan" {{ $customer->category == 'Paket Ringan' ? 'selected' : '' }}>Paket Ringan</option>
+          <option value="Paket Sedang" {{ $customer->category == 'Paket Sedang' ? 'selected' : '' }}>Paket Sedang</option>
+          <option value="Paket Berat" {{ $customer->category == 'Paket Berat' ? 'selected' : '' }}>Paket Berat</option>
         </select>
         <x-input-error :messages="$errors->get('category')" class="mt-2" />
+      </div>
+
+      <div>
+        <x-input-label for="project{{ $customer->id }}" value="Projek" />
+        <x-text-input id="project{{ $customer->id }}" name="project" type="text" class="mt-1 block w-full" value="{{ $customer->project }}" required />
+        <x-input-error :messages="$errors->get('project')" class="mt-2" />
       </div>
 
       <div>

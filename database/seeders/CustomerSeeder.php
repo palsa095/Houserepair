@@ -19,6 +19,7 @@ class CustomerSeeder extends Seeder
             'phone' => '082847290344',
             'address' => 'Jalan Kaliurang KM. 13, Sukoharjo, Ngaglik, Sleman, Yogyakarta',
             'category' => 'Sedang',
+            'project' => 'Renovasi Keseluruhan Rumah Dalam',
             'note' => 'Atap bocor, ada delapan titik kebocoran. Plafon jebol lumayan lebar.',
             'status' => 'Sudah selesai'
         ]);

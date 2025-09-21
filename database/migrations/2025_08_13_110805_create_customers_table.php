@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone');
             $table->text('address');
             $table->string('category');
+            $table->string('project')->nullable();
             $table->text('note')->nullable();
             $table->enum('status', ['Tidak diterima', 'Sedang diproses', 'Sudah selesai'])->default('Sedang diproses');
             $table->timestamps();

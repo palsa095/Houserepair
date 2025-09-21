@@ -23,8 +23,19 @@
 
     <div>
       <x-input-label for="category" value="Kategori" />
-      <x-text-input id="category" class="mt-1 block w-full" type="text" name="category" :value="old('category')" required autofocus />
+      <select id="category" name="category" required class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+        <option value="">-- Pilih --</option>
+        <option value="Paket Ringan" {{ old('project') == 'Paket Ringan' ? 'selected' : '' }}>Paket Ringan</option>
+        <option value="Paket Sedang" {{ old('project') == 'Paket Sedang' ? 'selected' : '' }}>Paket Sedang</option>
+        <option value="Paket Berat" {{ old('project') == 'Paket Berat' ? 'selected' : '' }}>Paket Berat</option>
+      </select>
       <x-input-error :messages="$errors->get('category')" class="mt-2" />
+    </div>
+
+    <div>
+      <x-input-label for="project" value="Projek" />
+      <x-text-input id="project" class="mt-1 block w-full" type="text" name="project" :value="old('project')" required />
+      <x-input-error :messages="$errors->get('project')" class="mt-2" />
     </div>
 
     <div>

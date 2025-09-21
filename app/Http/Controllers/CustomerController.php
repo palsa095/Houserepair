@@ -53,7 +53,7 @@ class CustomerController extends Controller
             'phone' => 'required|string|max:20',
             'address' => 'required',
             'category' => 'required',
-            'project' => 'required',
+            'project' => 'nullable',
             'note' => 'nullable',
             'status' => 'nullable'
         ]);
@@ -71,7 +71,7 @@ class CustomerController extends Controller
             'number'        => 'HR-' . now()->format('dmY') . rand(100000, 999999),
             'date'          => now(),
             'customer_name' => $request->name,
-            'package'          => $request->package ?? 'Paket Besar',
+            'package'          => $request->package . ' - ' . $request->project ?? 'Paket Besar',
             'project'          => $request->project ?? 'Reservasi',
         ]);
 
