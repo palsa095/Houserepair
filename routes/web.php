@@ -8,6 +8,7 @@ use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProgressController;
+use App\Http\Controllers\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,9 @@ Route::controller(LandingController::class)->group(function () {
     Route::get('/order/{id}', 'form')->name('landing.order.form');
     Route::get('/invoice', 'invoice')->name('landing.invoice')->middleware('auth');
     Route::get('/invoice/{invoice}', 'showinvoice')->name('landing.showinvoice');
+    Route::get('/address', 'address')->name('landing.address')->middleware('auth');
+    Route::post('/address', 'storeAddress')->name('landing.address.store')->middleware('auth');
+    Route::post('/address/{address}/default', 'setDefaultAddress')->name('landing.address.setdefault')->middleware('auth');
 });
 
 Route::resource('customers', CustomerController::class)->middleware('auth');
@@ -41,8 +45,8 @@ Route::get('/dashboard', function () {
     $jumlahTransaksi = App\Models\Invoice::count();
 
     return view('dashboard',  [
-        'totalHasilSurvey' => $totalHasilSurvey, 
-        'totalBarang' => $totalBarang,           
+        'totalHasilSurvey' => $totalHasilSurvey,
+        'totalBarang' => $totalBarang,
         'jumlahTransaksi' => $jumlahTransaksi
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');

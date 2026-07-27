@@ -39,7 +39,7 @@
             Order
           </a>
           <a href="{{ route('landing.invoice') }}" class="{{ request()->routeIs('landing.invoice') ? 'text-emerald-400 border-b-2 border-emerald-400' : 'hover:text-emerald-400' }} px-2 py-3 text-sm">
-            Invoice
+            Daftar Order
           </a>
         </div>
 
@@ -54,9 +54,20 @@
             </button>
 
             {{-- User --}}
-            <div class="flex items-center space-x-2">
-              <img class="h-8 w-8 rounded-full border border-gray-600" src="https://i.pravatar.cc/40" alt="user">
-              <span class="text-sm">{{ Auth::user()->name }}</span>
+            <div class="relative" x-data="{open:false}" @keydown.escape.window="open=false">
+              <button type="button" class="flex items-center space-x-2 rounded-full px-2 py-1 hover:bg-gray-700" @click="open = !open" :aria-expanded="open" aria-haspopup="true">
+                <img class="h-8 w-8 rounded-full border border-gray-600" src="https://i.pravatar.cc/40" alt="user">
+                <span class="text-sm">{{ Auth::user()->name }}</span>
+                <svg class="h-4 w-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7" />
+                </svg>
+              </button>
+              <div x-show="open" x-cloak @click.outside="open=false" x-transition.origin.top.right
+                   class="absolute right-0 z-50 mt-3 w-72 overflow-hidden rounded-lg bg-white text-gray-900 shadow-xl ring-1 ring-black/5">
+                <ul class="py-1" role="menu" aria-orientation="vertical">
+                  <li><a href="{{ route('landing.address') }}" class="block px-3 py-2 text-sm hover:bg-gray-50" role="menuitem">Address</a></li>
+                </ul>
+              </div>
             </div>
 
             <form method="POST" action="{{ route('logout') }}">

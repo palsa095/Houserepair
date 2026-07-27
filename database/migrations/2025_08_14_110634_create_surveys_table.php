@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('surveys', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); //tambahan
+            $table->foreignId('customer_id')->nullable()->constrained('customers')->cascadeOnUpdate()->nullOnDelete();
             $table->string('nama');
             $table->text('hasil_survey');
             $table->json('dokumentasi')->nullable();

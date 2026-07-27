@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Progress;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class ProgressController extends Controller
@@ -14,13 +15,18 @@ class ProgressController extends Controller
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
 
-        $query = Progress::query();
+        $query = Progress::query()->with('customer');
 
         // Search filter
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', '%' . $search . '%')
-                    ->orWhere('yang_dikerjakan', 'like', '%' . $search . '%');
+                    ->orWhere('yang_dikerjakan', 'like', '%' . $search . '%')
+                    ->orWhereHas('customer', function ($cq) use ($search) {
+                        $cq->where('name', 'like', '%' . $search . '%')
+                           ->orWhere('phone', 'like', '%' . $search . '%')
+                           ->orWhere('address', 'like', '%' . $search . '%');
+                    });
             });
         }
 
@@ -33,14 +39,16 @@ class ProgressController extends Controller
         }
 
         $progress = $query->orderBy('created_at', 'desc')->paginate(10);
+        $customers = Customer::orderBy('name')->get();
 
-        return view('pages.dashboard.progress.index', compact('progress'));
+        return view('pages.dashboard.progress.index', compact('progress', 'customers'));
     }
 
     public function store(Request $request)
     {
         // Hanya admin_progresor
         $validated = $request->validate([
+            'customer_id' => 'required|exists:customers,id',
             'nama' => 'required|string',
             'yang_dikerjakan' => 'required|string',
             'bukti_progress' => 'nullable'
@@ -66,6 +74,8 @@ class ProgressController extends Controller
         }
 
         $progres = Progress::create([
+            'user_id' => $request->user()->id,
+            'customer_id' => $validated['customer_id'],
             'nama' => $validated['nama'],
             'yang_dikerjakan' => $validated['yang_dikerjakan'],
             'bukti_progress' => $bukti_progress ? json_encode($bukti_progress) : null,
@@ -78,6 +88,7 @@ class ProgressController extends Controller
     {
         $progres = Progress::findOrFail($id);
         $validated = $request->validate([
+            'customer_id' => 'sometimes|exists:customers,id',
             'nama' => 'sometimes|string',
             'yang_dikerjakan' => 'sometimes|string',
             'bukti_progress' => 'nullable'
@@ -105,6 +116,7 @@ class ProgressController extends Controller
         $progres->update([
             'nama' => $validated['nama'] ?? $progres->nama,
             'yang_dikerjakan' => $validated['yang_dikerjakan'] ?? $progres->yang_dikerjakan,
+            'customer_id' => $validated['customer_id'] ?? $progres->customer_id,
             'bukti_progress' => $bukti_progress ? json_encode($bukti_progress) : null,
         ]);
 

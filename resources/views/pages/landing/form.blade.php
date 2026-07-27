@@ -9,20 +9,24 @@
 
     <div>
       <x-input-label for="name" value="Nama" />
-      <x-text-input id="name" class="mt-1 block w-full" type="text" name="name" :value="old('name')" required autofocus />
+      <x-text-input id="name" class="mt-1 block w-full" type="text" name="name" :value="old('name', $userName)" required autofocus />
       <x-input-error :messages="$errors->get('name')" class="mt-2" />
     </div>
 
     <div>
       <x-input-label for="phone" value="No. Telp" />
-      <x-text-input id="phone" class="mt-1 block w-full" type="text" name="phone" :value="old('phone')" required />
+      <x-text-input id="phone" class="mt-1 block w-full" type="number" name="phone" :value="old('phone')" required />
       <x-input-error :messages="$errors->get('phone')" class="mt-2" />
     </div>
 
     <div>
       <x-input-label for="address" value="Alamat" />
-      <textarea id="address" name="address" required class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">{{ old('address') }}</textarea>
+      <textarea id="address" name="address" @if(!empty($defaultAddressLine)) readonly @endif required class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">{{ old('address', $defaultAddressLine) }}</textarea>
       <x-input-error :messages="$errors->get('address')" class="mt-2" />
+      @if (empty($defaultAddressLine))
+        <p class="mt-2 text-sm text-red-600">Silakan atur default address di halaman Address sebelum membuat order.</p>
+        <a href="{{ route('landing.address') }}" class="mt-2 inline-block text-sm text-emerald-600 underline">Buka halaman Address</a>
+      @endif
     </div>
 
     <div>
@@ -61,7 +65,7 @@
     </div>
 
     <div class="mt-6 flex w-full">
-      <button type="submit" class="w-full rounded-lg bg-black py-3 text-center text-white">
+      <button type="submit" class="w-full rounded-lg bg-black py-3 text-center text-white @if (empty($defaultAddressLine)) opacity-60 cursor-not-allowed @endif" @if (empty($defaultAddressLine)) disabled @endif>
         Submit
       </button>
     </div>

@@ -68,9 +68,11 @@
         </button>
 
         {{-- Add Progres Button --}}
+        @if(in_array(Auth::user()->role, ['admin_tukang', 'super_admin']))
         <x-primary-button x-on:click="$dispatch('open-modal', 'createProgres')">
           <i class="mr-2 fa-solid fa-plus"></i>Tambah
         </x-primary-button>
+        @endif
       </div>
     </div>
 
@@ -82,9 +84,11 @@
         <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">Data Progres Kosong</h3>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Belum ada data progres yang tersimpan.</p>
         <div class="mt-6">
+          @if(in_array(Auth::user()->role, ['admin_tukang', 'super_admin']))
           <x-primary-button x-on:click="$dispatch('open-modal', 'createProgres')">
             <i class="mr-2 fa-solid fa-plus"></i>Tambah Progres Pertama
           </x-primary-button>
+          @endif
         </div>
       </div>
     @else
@@ -93,6 +97,9 @@
           <thead class="bg-gray-100 dark:bg-gray-700">
             <tr>
               <th class="p-2">#</th>
+              <th class="p-2">Nama customer</th>
+              <th class="p-2">alamat customerr</th>
+              <th class="p-2">no phone customerr</th>
               <th class="p-2">Nama</th>
               <th class="p-2">Yang Dikerjakan</th>
               <th class="p-2">Bukti Progres</th>
@@ -103,6 +110,9 @@
             @foreach ($progress as $i => $progres)
               <tr class="border-b dark:border-gray-600">
                 <td class="p-2">{{ $i + 1 }}</td>
+                <td class="p-2">{{ $progres->customer->name ?? '-' }}</td>
+                <td class="p-2">{{ $progres->customer->address ?? '-' }}</td>
+                <td class="p-2">{{ $progres->customer->phone ?? '-' }}</td>
                 <td class="p-2 font-medium">{{ $progres->nama }}</td>
                 <td class="max-w-xs p-2 truncate">{{ $progres->yang_dikerjakan }}</td>
                 <td class="p-3">
@@ -156,12 +166,14 @@
                   @endif
                 </td>
                 <td class="flex gap-2 p-2">
+                  @if(in_array(Auth::user()->role, ['admin_tukang', 'super_admin']))
                   <button type="button" class="text-yellow-500 hover:text-yellow-700" @click="$dispatch('open-modal', 'editProgres{{ $progres->id }}')">
                     <i class="fa-solid fa-pen"></i>
                   </button>
                   <button type="button" class="text-red-500 hover:text-red-700" @click="$dispatch('open-modal', 'deleteProgres{{ $progres->id }}')">
                     <i class="fa-solid fa-trash"></i>
                   </button>
+                  @endif
                 </td>
               </tr>
             @endforeach
@@ -236,7 +248,7 @@
       const tbody = document.createElement('tbody');
 
       const headerRow = document.createElement('tr');
-      ['No', 'Nama', 'Yang Dikerjakan', 'Bukti Progres'].forEach(text => {
+      ['No', 'Nama Customer', 'Alamat', 'No. Telp', 'Nama', 'Yang Dikerjakan', 'Bukti Progres'].forEach(text => {
         const th = document.createElement('th');
         th.textContent = text;
         headerRow.appendChild(th);
@@ -249,6 +261,9 @@
           const row = document.createElement('tr');
           const cells = [
             {{ $i + 1 }},
+            @json(optional($progres->customer)->name ?? '-'),
+            @json(optional($progres->customer)->address ?? '-'),
+            @json(optional($progres->customer)->phone ?? '-'),
             @json($progres->nama),
             @json($progres->yang_dikerjakan),
             @json($progres->bukti_progress ? (count(json_decode($progres->bukti_progress, true) ?: []) . ' foto') : 'Tidak ada'),

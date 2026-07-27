@@ -65,9 +65,11 @@
           <i class="mr-2 fa-solid fa-print"></i> Print
         </button>
 
+        @if(in_array(Auth::user()->role, ['admin_surveyor', 'super_admin']))
         <x-primary-button x-on:click="$dispatch('open-modal', 'createSurvey')">
           <i class="mr-2 fa-solid fa-plus"></i>Tambah
         </x-primary-button>
+        @endif
       </div>
     </div>
 
@@ -78,9 +80,11 @@
         <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">Data Survey Kosong</h3>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Belum ada data survey yang tersimpan.</p>
         <div class="mt-6">
+          @if(in_array(Auth::user()->role, ['admin_surveyor', 'super_admin']))
           <x-primary-button x-on:click="$dispatch('open-modal', 'createSurvey')">
             <i class="mr-2 fa-solid fa-plus"></i>Tambah Survey Pertama
           </x-primary-button>
+          @endif
         </div>
       </div>
     @else
@@ -89,6 +93,9 @@
           <thead class="bg-gray-100 dark:bg-gray-700">
             <tr>
               <th class="p-2">#</th>
+              <th class="p-2">Nama customer</th>
+              <th class="p-2">alamat customerr</th>
+              <th class="p-2">no phone customerr</th>
               <th class="p-2">Nama Survey</th>
               <th class="p-2">Hasil Survey</th>
               <th class="p-2">Dokumentasi</th>
@@ -99,6 +106,9 @@
             @foreach ($surveys as $i => $survey)
               <tr class="border-b dark:border-gray-600">
                 <td class="p-2">{{ $i + 1 }}</td>
+                <td class="p-2">{{ $survey->customer->name ?? '-' }}</td>
+                <td class="p-2">{{ $survey->customer->address ?? '-' }}</td>
+                <td class="p-2">{{ $survey->customer->phone ?? '-' }}</td>
                 <td class="p-2 font-medium">{{ $survey->nama }}</td>
                 <td class="max-w-xs p-2 truncate">{{ $survey->hasil_survey }}</td>
                 <td class="p-3">
@@ -125,7 +135,7 @@
                           <button @click="showPreview = false" class="absolute text-gray-500 right-4 top-4 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
                             <i class="text-2xl fa-solid fa-xmark"></i>
                           </button>
-
+{{-- ------------------- --}}
                           <div class="p-6">
                             <h3 class="mb-4 text-lg font-semibold dark:text-white">Dokumentasi Survey</h3>
                             <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -149,12 +159,14 @@
                   @endif
                 </td>
                 <td class="flex gap-2 p-2">
+                  @if(in_array(Auth::user()->role, ['admin_surveyor', 'super_admin']))
                   <button type="button" class="text-yellow-500 hover:text-yellow-700" @click="$dispatch('open-modal', 'editSurvey{{ $survey->id }}')">
                     <i class="fa-solid fa-pen"></i>
                   </button>
                   <button type="button" class="text-red-500 hover:text-red-700" @click="$dispatch('open-modal', 'deleteSurvey{{ $survey->id }}')">
                     <i class="fa-solid fa-trash"></i>
                   </button>
+                  @endif
                 </td>
               </tr>
             @endforeach
@@ -225,7 +237,7 @@
       const tbody = document.createElement('tbody');
 
       const headerRow = document.createElement('tr');
-      ['No', 'Nama Survey', 'Hasil Survey', 'Dokumentasi'].forEach(text => {
+      ['No', 'Nama Customer', 'Alamat', 'No. Telp', 'Nama Survey', 'Hasil Survey', 'Dokumentasi'].forEach(text => {
         const th = document.createElement('th'); th.textContent = text; headerRow.appendChild(th);
       });
       thead.appendChild(headerRow); table.appendChild(thead);
@@ -235,6 +247,9 @@
           const row = document.createElement('tr');
           const cells = [
             {{ $i + 1 }},
+            @json(optional($survey->customer)->name ?? '-'),
+            @json(optional($survey->customer)->address ?? '-'),
+            @json(optional($survey->customer)->phone ?? '-'),
             @json($survey->nama),
             @json($survey->hasil_survey),
             @json($survey->dokumentasi ? (count(json_decode($survey->dokumentasi)) . ' foto') : 'Tidak ada'),

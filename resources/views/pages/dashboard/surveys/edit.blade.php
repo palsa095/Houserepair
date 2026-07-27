@@ -8,6 +8,20 @@
       <h2 class="mb-4 text-lg font-bold">Edit Survey</h2>
 
       <div>
+        <x-input-label for="customer_id{{ $survey->id }}" value="Customer" />
+        <select id="customer_id{{ $survey->id }}" name="customer_id"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+          <option value="">Pilih Customer</option>
+          @foreach ($customers as $c)
+            <option value="{{ $c->id }}" {{ $survey->customer_id == $c->id ? 'selected' : '' }}>
+              {{ $c->name }} — {{ $c->phone }}
+            </option>
+          @endforeach
+        </select>
+        <x-input-error :messages="$errors->get('customer_id')" class="mt-2" />
+      </div>
+
+      <div>
         <x-input-label for="nama{{ $survey->id }}" value="Nama Survey" />
         <x-text-input id="nama{{ $survey->id }}" name="nama" type="text" class="mt-1 block w-full" value="{{ $survey->nama }}" required />
         <x-input-error :messages="$errors->get('nama')" class="mt-2" />

@@ -8,6 +8,20 @@
       <h2 class="mb-4 text-lg font-bold">Edit Progres</h2>
 
       <div>
+        <x-input-label for="customer_id{{ $progres->id }}" value="Customer" />
+        <select id="customer_id{{ $progres->id }}" name="customer_id"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+          <option value="">Pilih Customer</option>
+          @foreach ($customers as $c)
+            <option value="{{ $c->id }}" {{ $progres->customer_id == $c->id ? 'selected' : '' }}>
+              {{ $c->name }} — {{ $c->phone }}
+            </option>
+          @endforeach
+        </select>
+        <x-input-error :messages="$errors->get('customer_id')" class="mt-2" />
+      </div>
+
+      <div>
         <x-input-label for="nama{{ $progres->id }}" value="Nama" />
         <x-text-input id="nama{{ $progres->id }}" name="nama" type="text" class="mt-1 block w-full" value="{{ $progres->nama }}" required />
         <x-input-error :messages="$errors->get('nama')" class="mt-2" />

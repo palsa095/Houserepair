@@ -40,9 +40,14 @@
           <div class="mb-2 h-28 w-20 rounded bg-gray-300"></div>
 
           {{-- pastikan route menerima model/ID: route('landing.showinvoice', $invoice) --}}
-          <a href="{{ route('landing.showinvoice', $invoice) }}" class="{{ $linkClass }}">
-            See Invoice &gt;&gt;&gt;
-          </a>
+          @php $matOK = $materialsComplete[$invoice->id] ?? false; @endphp
+          @if ($matOK)
+            <a href="{{ route('landing.showinvoice', $invoice) }}" class="{{ $linkClass }}">
+              See Invoice &gt;&gt;&gt;
+            </a>
+          @else
+            <span class="{{ $linkClass }}"></span>
+          @endif
         </div>
       </div>
     @empty

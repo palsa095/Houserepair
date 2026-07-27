@@ -16,6 +16,7 @@ class SurveySeeder extends Seeder
     {
         $surveys = [
             [
+                'user_id' => 1,
                 'nama' => 'Survey Rumah Type 36',
                 'hasil_survey' => 'Kondisi rumah cukup baik, perlu perbaikan kecil di bagian atap dan plafon. Listrik perlu penambahan stop kontak di beberapa ruangan.',
                 'dokumentasi' => json_encode([
@@ -25,6 +26,7 @@ class SurveySeeder extends Seeder
                 ])
             ],
             [
+                'user_id' => 1,
                 'nama' => 'Survey Apartemen Tipe Studio',
                 'hasil_survey' => 'Unit dalam kondisi sangat baik, hanya perlu pengecatan ulang dan perbaikan keran wastafel kamar mandi. Tidak ditemukan kerusakan struktural.',
                 'dokumentasi' => json_encode([
@@ -36,6 +38,7 @@ class SurveySeeder extends Seeder
                 ])
             ],
             [
+                'user_id' => 1,
                 'nama' => 'Survey Rumah Type 45',
                 'hasil_survey' => 'Kerusakan cukup parah di bagian dinding belakang yang retak struktural. Perlu perbaikan fondasi dan dinding. Instalasi air perlu diperbaiki karena terjadi kebocoran.',
                 'dokumentasi' => null

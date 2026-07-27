@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Material;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class MaterialController extends Controller
@@ -14,13 +15,18 @@ class MaterialController extends Controller
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
 
-        $query = Material::query();
+        $query = Material::query()->with('customer');
 
         // Search filter
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', '%' . $search . '%')
-                    ->orWhere('keperluan_barang', 'like', '%' . $search . '%');
+                  ->orWhere('keperluan_barang', 'like', '%' . $search . '%')
+                  ->orWhereHas('customer', function ($cq) use ($search) {
+                      $cq->where('name', 'like', '%' . $search . '%')
+                         ->orWhere('phone', 'like', '%' . $search . '%')
+                         ->orWhere('address', 'like', '%' . $search . '%');
+                  });
             });
         }
 
@@ -33,19 +39,22 @@ class MaterialController extends Controller
         }
 
         $materials = $query->orderBy('created_at', 'desc')->paginate(10);
+        $customers = Customer::orderBy('name')->get();
 
-        return view('pages.dashboard.materials.index', compact('materials'));
+        return view('pages.dashboard.materials.index', compact('materials', 'customers'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'customer_id' => 'required|exists:customers,id',
             'nama' => 'required|string',
             'keterangan' => 'required|string',
             'keperluan_barang' => 'required|string',
             'total_harga' => 'required|numeric'
         ]);
 
+        $validated['user_id'] = $request->user()->id;
         $material = Material::create($validated);
 
         return redirect()->back()->with('success', 'Material berhasil ditambahkan');
@@ -55,6 +64,7 @@ class MaterialController extends Controller
     {
         $material = Material::findOrFail($id);
         $validated = $request->validate([
+            'customer_id' => 'sometimes|exists:customers,id',
             'nama' => 'sometimes|string',
             'keterangan' => 'sometimes|string',
             'keperluan_barang' => 'sometimes|string',

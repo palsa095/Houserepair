@@ -48,9 +48,11 @@
         </button>
 
         {{-- Add Material Button --}}
+        @if(in_array(Auth::user()->role, ['admin_supplier', 'super_admin']))
         <x-primary-button x-on:click="$dispatch('open-modal', 'createMaterial')">
           <i class="mr-2 fa-solid fa-plus"></i>Tambah
         </x-primary-button>
+        @endif
       </div>
     </div>
 
@@ -85,6 +87,9 @@
           <thead class="bg-gray-100 dark:bg-gray-700">
             <tr>
               <th class="p-2">#</th>
+              <th class="p-2">Nama customer</th>
+              <th class="p-2">alamat customerr</th>
+              <th class="p-2">no phone customerr</th>
               <th class="p-2">Nama</th>
               <th class="p-2">Keterangan</th>
               <th class="p-2">Keperluan Barang</th>
@@ -96,18 +101,23 @@
             @foreach ($materials as $i => $material)
               <tr class="border-b dark:border-gray-600">
                 <td class="p-2">{{ $i + 1 }}</td>
-                <td class="p-2">{{ $material->nama }}</td>
-                <td class="p-2">{{ $material->keterangan }}</td>
-                <td class="p-2">{{ $material->keperluan_barang }}</td>
-                <td class="p-2">{{ $material->total_harga }}</td>
+                <td class="p-2">{{ $material->customer->name ?? '-' }}</td>
+                <td class="p-2">{{ $material->customer->address ?? '-' }}</td>
+                <td class="p-2">{{ $material->customer->phone ?? '-' }}</td>
+                <td class="p-2">{{ $material->nama !== '' ? $material->nama : 'Belum diisi' }}</td>
+                <td class="p-2">{{ !empty($material->keterangan) ? $material->keterangan : 'Belum diisi' }}</td>
+                <td class="p-2">{{ $material->keperluan_barang !== '' ? $material->keperluan_barang : 'Belum diisi' }}</td>
+                <td class="p-2">{{ ($material->total_harga ?? 0) > 0 ? $material->total_harga : 'Belum diisi' }}</td>
                 <td class="p-3 align-middle">
                   <div class="flex justify-center gap-2">
+                    @if(in_array(Auth::user()->role, ['admin_supplier', 'super_admin']))
                     <button type="button" class="text-yellow-500 hover:text-yellow-700" @click="$dispatch('open-modal', 'editMaterial{{ $material->id }}')">
                       <i class="fa-solid fa-pen"></i>
                     </button>
                     <button type="button" class="text-red-500 hover:text-red-700" @click="$dispatch('open-modal', 'deleteMaterial{{ $material->id }}')">
                       <i class="fa-solid fa-trash"></i>
                     </button>
+                    @endif
                   </div>
                 </td>
               </tr>
@@ -198,10 +208,10 @@
           const row = document.createElement('tr');
           const cells = [
             {{ $i + 1 }},
-            @json($material->nama),
-            @json($material->keterangan),
-            @json($material->keperluan_barang),
-            @json((string) $material->total_harga),
+            @json($material->nama !== '' ? $material->nama : 'Belum diisi'),
+            @json(!empty($material->keterangan) ? $material->keterangan : 'Belum diisi'),
+            @json($material->keperluan_barang !== '' ? $material->keperluan_barang : 'Belum diisi'),
+            @json(($material->total_harga ?? 0) > 0 ? (string) $material->total_harga : 'Belum diisi'),
           ];
           cells.forEach(text => {
             const td = document.createElement('td');

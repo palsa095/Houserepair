@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Survey;
+use App\Models\Customer;
+use App\Models\Material;
 use Illuminate\Http\Request;
 
 class SurveyController extends Controller
@@ -14,13 +16,18 @@ class SurveyController extends Controller
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
 
-        $query = Survey::query();
+        $query = Survey::query()->with('customer');
 
         // Search filter
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', '%' . $search . '%')
-                    ->orWhere('hasil_survey', 'like', '%' . $search . '%');
+                    ->orWhere('hasil_survey', 'like', '%' . $search . '%')
+                    ->orWhereHas('customer', function ($cq) use ($search) {
+                        $cq->where('name', 'like', '%' . $search . '%')
+                           ->orWhere('phone', 'like', '%' . $search . '%')
+                           ->orWhere('address', 'like', '%' . $search . '%');
+                    });
             });
         }
 
@@ -33,14 +40,16 @@ class SurveyController extends Controller
         }
 
         $surveys = $query->orderBy('created_at', 'desc')->paginate(10);
+        $customers = Customer::orderBy('name')->get();
 
-        return view('pages.dashboard.surveys.index', compact('surveys'));
+        return view('pages.dashboard.surveys.index', compact('surveys', 'customers'));
     }
 
     public function store(Request $request)
     {
         // Hanya admin_surveyor
         $validated = $request->validate([
+            'customer_id' => 'required|exists:customers,id',
             'nama' => 'required|string',
             'hasil_survey' => 'required|string',
             'dokumentasi' => 'nullable'
@@ -66,10 +75,26 @@ class SurveyController extends Controller
         }
 
         $survey = Survey::create([
+            'user_id' => $request->user()->id,
+            'customer_id' => $validated['customer_id'],
             'nama' => $validated['nama'],
             'hasil_survey' => $validated['hasil_survey'],
             'dokumentasi' => $dokumentasi ? json_encode($dokumentasi) : null,
         ]);
+
+        if (trim($survey->nama) !== '' && trim($survey->hasil_survey) !== '') {
+            $hasMaterial = Material::where('customer_id', $survey->customer_id)->exists();
+            if (!$hasMaterial) {
+                Material::create([
+                    'user_id' => $request->user()->id,
+                    'customer_id' => $survey->customer_id,
+                    'nama' => '',
+                    'keterangan' => null,
+                    'keperluan_barang' => '',
+                    'total_harga' => 0,
+                ]);
+            }
+        }
 
         return redirect()->back()->with('success', 'Survey berhasil ditambahkan');
     }
@@ -78,6 +103,7 @@ class SurveyController extends Controller
     {
         $survey = Survey::findOrFail($id);
         $validated = $request->validate([
+            'customer_id' => 'sometimes|exists:customers,id',
             'nama' => 'sometimes|string',
             'hasil_survey' => 'sometimes|string',
             'dokumentasi' => 'nullable'
@@ -105,8 +131,24 @@ class SurveyController extends Controller
         $survey->update([
             'nama' => $validated['nama'] ?? $survey->nama,
             'hasil_survey' => $validated['hasil_survey'] ?? $survey->hasil_survey,
+            'customer_id' => $validated['customer_id'] ?? $survey->customer_id,
             'dokumentasi' => $dokumentasi ? json_encode($dokumentasi) : null,
         ]);
+
+        $survey->refresh();
+        if (trim($survey->nama) !== '' && trim($survey->hasil_survey) !== '') {
+            $hasMaterial = Material::where('customer_id', $survey->customer_id)->exists();
+            if (!$hasMaterial) {
+                Material::create([
+                    'user_id' => $request->user()->id,
+                    'customer_id' => $survey->customer_id,
+                    'nama' => '',
+                    'keterangan' => null,
+                    'keperluan_barang' => '',
+                    'total_harga' => 0,
+                ]);
+            }
+        }
 
         return redirect()->back()->with('success', 'Survey berhasil diperbarui');
     }

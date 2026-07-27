@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tabel Data Customer')
+@section('title', 'Data Customer')
 
 @section('content')
   <div class="rounded-lg bg-white p-4 shadow dark:bg-gray-800">

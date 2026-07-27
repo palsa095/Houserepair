@@ -15,112 +15,75 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // Super Admin
-        User::create([
-            'name' => 'Super Admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'super_admin',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@example.com'],
+            ['name' => 'Super Admin', 'password' => Hash::make('password'), 'role' => 'super_admin']
+        );
 
-        // Customer
-        User::create([
-            'name' => 'John Customer',
-            'email' => 'customer@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'customer',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'customer@example.com'],
+            ['name' => 'John Customer', 'password' => Hash::make('password'), 'role' => 'customer']
+        );
 
-        User::create([
-            'name' => 'Jane Customer',
-            'email' => 'jane.customer@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'customer',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'jane.customer@example.com'],
+            ['name' => 'Jane Customer', 'password' => Hash::make('password'), 'role' => 'customer']
+        );
 
-        // Admin Surveyor
-        User::create([
-            'name' => 'Surveyor Admin',
-            'email' => 'surveyor@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin_surveyor',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'surveyor@example.com'],
+            ['name' => 'Surveyor Admin', 'password' => Hash::make('password'), 'role' => 'admin_surveyor']
+        );
 
-        User::create([
-            'name' => 'Budi Surveyor',
-            'email' => 'budi.surveyor@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin_surveyor',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'budi.surveyor@example.com'],
+            ['name' => 'Budi Surveyor', 'password' => Hash::make('password'), 'role' => 'admin_surveyor']
+        );
 
-        // Admin Supplier
-        User::create([
-            'name' => 'Supplier Admin',
-            'email' => 'supplier@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin_supplier',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'supplier@example.com'],
+            ['name' => 'Supplier Admin', 'password' => Hash::make('password'), 'role' => 'admin_supplier']
+        );
 
-        User::create([
-            'name' => 'Sari Supplier',
-            'email' => 'sari.supplier@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin_supplier',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'sari.supplier@example.com'],
+            ['name' => 'Sari Supplier', 'password' => Hash::make('password'), 'role' => 'admin_supplier']
+        );
 
-        // Admin Tukang
-        User::create([
-            'name' => 'Tukang Admin',
-            'email' => 'tukang@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin_tukang',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'tukang@example.com'],
+            ['name' => 'Tukang Admin', 'password' => Hash::make('password'), 'role' => 'admin_tukang']
+        );
 
-        User::create([
-            'name' => 'Ahmad Tukang',
-            'email' => 'ahmad.tukang@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin_tukang',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'ahmad.tukang@example.com'],
+            ['name' => 'Ahmad Tukang', 'password' => Hash::make('password'), 'role' => 'admin_tukang']
+        );
 
-        // Additional Customers for testing
-        User::create([
-            'name' => 'Dewi Customer',
-            'email' => 'dewi.customer@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'customer',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'dewi.customer@example.com'],
+            ['name' => 'Dewi Customer', 'password' => Hash::make('password'), 'role' => 'customer']
+        );
 
-        User::create([
-            'name' => 'Rudi Customer',
-            'email' => 'rudi.customer@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'customer',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'rudi.customer@example.com'],
+            ['name' => 'Rudi Customer', 'password' => Hash::make('password'), 'role' => 'customer']
+        );
 
-        // Additional Surveyors
-        User::create([
-            'name' => 'Citra Surveyor',
-            'email' => 'citra.surveyor@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin_surveyor',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'citra.surveyor@example.com'],
+            ['name' => 'Citra Surveyor', 'password' => Hash::make('password'), 'role' => 'admin_surveyor']
+        );
 
-        // Additional Suppliers
-        User::create([
-            'name' => 'Rina Supplier',
-            'email' => 'rina.supplier@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin_supplier',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'rina.supplier@example.com'],
+            ['name' => 'Rina Supplier', 'password' => Hash::make('password'), 'role' => 'admin_supplier']
+        );
 
-        // Additional Tukang
-        User::create([
-            'name' => 'Bambang Tukang',
-            'email' => 'bambang.tukang@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin_tukang',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'bambang.tukang@example.com'],
+            ['name' => 'Bambang Tukang', 'password' => Hash::make('password'), 'role' => 'admin_tukang']
+        );
 
         $this->command->info('User accounts created successfully!');
         $this->command->info('Super Admin: admin@example.com / password');

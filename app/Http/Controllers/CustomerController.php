@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Invoice;
 use App\Models\Customer;
+use App\Models\Survey;
+use App\Models\CustomerAddress;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -16,7 +18,7 @@ class CustomerController extends Controller
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
 
-        $query = Customer::query();
+        $query = Customer::query()->where('name', '!=', 'Alamat Tersimpan');
 
         // Search filter
         if ($search) {
@@ -58,7 +60,26 @@ class CustomerController extends Controller
             'status' => 'nullable'
         ]);
 
-        Customer::create($request->all());
+        $baseName = auth()->check() ? auth()->user()->name : $request->name;
+        $customer = Customer::firstOrCreate(
+            ['name' => $baseName],
+            [
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'category' => $request->category,
+                'project' => $request->project,
+                'note' => $request->note,
+                'status' => $request->status ?? 'Sedang diproses',
+            ]
+        );
+        $customer->update([
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'category' => $request->category,
+            'project' => $request->project,
+            'note' => $request->note,
+            'status' => $request->status ?? 'Sedang diproses',
+        ]);
 
         $userId = auth()->id();
 
@@ -70,12 +91,20 @@ class CustomerController extends Controller
             'user_id'       => $userId,
             'number'        => 'HR-' . now()->format('dmY') . rand(100000, 999999),
             'date'          => now(),
-            'customer_name' => $request->name,
+            'customer_name' => $customer->name,
             'package'          => $request->package . ' - ' . $request->project ?? 'Paket Besar',
             'project'          => $request->project ?? 'Reservasi',
         ]);
 
-        return redirect()->back()->with('success', 'Berhasil membuat pesanan');
+        Survey::create([
+            'user_id' => $userId,
+            'customer_id' => $customer->id,
+            'nama' => '',
+            'hasil_survey' => '',
+            'dokumentasi' => null,
+        ]);
+
+        return redirect()->route('landing.invoice')->with('success', 'Berhasil membuat pesanan');
     }
 
     public function update(Request $request, Customer $customer)
@@ -96,8 +125,23 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer)
     {
+        $hasAddresses = \App\Models\CustomerAddress::where('customer_id', $customer->id)->exists();
+        if ($hasAddresses) {
+            $archive = Customer::firstOrCreate(
+                ['name' => 'Alamat Tersimpan'],
+                [
+                    'phone' => '',
+                    'address' => '',
+                    'category' => 'Sedang',
+                    'project' => null,
+                    'note' => null,
+                    'status' => 'Sedang diproses',
+                ]
+            );
+            \App\Models\CustomerAddress::where('customer_id', $customer->id)->update(['customer_id' => $archive->id]);
+        }
         $customer->delete();
 
-        return redirect()->back()->with('success', 'Berhasil menghapus pesanan');
+        return redirect()->back()->with('success', 'Berhasil menghapus customer');
     }
 }

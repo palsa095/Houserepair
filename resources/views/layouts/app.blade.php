@@ -31,9 +31,9 @@ if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && w
     $menuPermissions = [
         'super_admin' => ['dashboard', 'customers', 'surveys', 'materials', 'progress', 'invoices'],
         'customer' => ['dashboard'],
-        'admin_surveyor' => ['dashboard', 'surveys'],
-        'admin_supplier' => ['dashboard', 'materials'],
-        'admin_tukang' => ['dashboard', 'progress'],
+        'admin_surveyor' => ['dashboard', 'surveys', 'materials', 'progress'],
+        'admin_supplier' => ['dashboard', 'materials', 'surveys', 'progress'],
+        'admin_tukang' => ['dashboard', 'progress', 'surveys', 'materials'],
     ];
     $allowed = $menuPermissions[$role] ?? ['dashboard'];
 
@@ -65,7 +65,7 @@ if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && w
         @if ($showCustomers)
           <a href="{{ route('customers.index') }}" class="{{ request()->routeIs('customers.*') ? 'bg-gray-700 text-emerald-400' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} flex items-center gap-3 rounded-lg px-3 py-2 transition-colors">
             <i class="fa-solid fa-table {{ request()->routeIs('customers.*') ? 'text-emerald-400' : 'text-gray-400' }} w-5"></i>
-            <span>Tabel Data</span>
+            <span>Data Customer</span>
           </a>
         @endif
 
