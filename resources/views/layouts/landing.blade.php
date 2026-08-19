@@ -8,6 +8,9 @@
 
   <title>House Repair - @yield('title', config('app.name', 'House Repair'))</title>
 
+  {{-- Icon --}}
+  <link rel="icon" type="image/png" href="{{ asset('Logo_HouseRepair.png') }}">
+
   {{-- Font Awesome --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -15,7 +18,7 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
+<body> 
   <nav class="bg-gray-800 py-1 text-white shadow">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
